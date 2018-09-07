@@ -27,13 +27,23 @@ class AuthForm extends Component {
 
   render() {
     const { email, password, username, profileImageurl } = this.state;
-    const { heading, btnText, signUp } = this.props;
+    const { heading, btnText, signUp, errors, removeError, history } = this.props;
+    //history obj from rRouter
+    history.listen(_=>{ //listen to any change in history
+      removeError(); //if there is a change, remove error
+    });
+
     return (
       <div>
         <div className="row justify-content-md-center text-center">
           <div className="col-md-6">
             <form onSubmit={this.handleSubmit}>
               <h2>{ heading }</h2>
+
+              { errors.message && (
+                <div className="alert alert-danger">{errors.message}</div>
+              )}
+
               <label htmlFor="email">Email:</label>
               <input 
                   type="email"
