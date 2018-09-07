@@ -1,4 +1,4 @@
-import { apiCall } from "../../services/api";
+import { apiCall, setTokenHeader } from "../../services/api";
 import { SET_CURRENT_USER } from "../actionTypes";
 import { addError, removeError } from './errors';
 
@@ -9,6 +9,10 @@ export function setCurrentUser(user) {
     user
   };
 }
+//funct to set jwt auth token to all requests
+export function setAuthorizationToken(token) {
+  setTokenHeader(token)
+}
 
 export function authUser(type, userData) {
   return dispatch => {
@@ -16,6 +20,8 @@ export function authUser(type, userData) {
     return new Promise((resolve, reject) => {
       return apiCall("post", `/api/auth/${type}`, userData).then(user => {
         localStorage.setItem("jwtToken", user.token);
+        //set jwt token headet to all future requests
+        setAuthorizationToken(user.token)
         dispatch(setCurrentUser(user));
         //remove errors from state, if there are
         dispatch(removeError());
@@ -32,6 +38,8 @@ export function authUser(type, userData) {
 export function logout(){
   return dispatch =>{
     localStorage.clear();
+    //clear auth jwt token from request headers
+    setAuthorizationToken(false);
     //dispatch setCurrentUser with empty obj, to clear currentUser from state
     dispatch(setCurrentUser({}));
   }
