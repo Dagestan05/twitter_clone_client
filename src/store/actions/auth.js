@@ -28,3 +28,11 @@ export function authUser(type, userData) {
     });
   };
 }
+
+export function logout(){
+  return dispatch =>{
+    localStorage.clear();
+    //dispatch setCurrentUser with empty obj, to clear currentUser from state
+    dispatch(setCurrentUser({}));
+  }
+}
