@@ -8,11 +8,16 @@ import { removeError } from '../store/actions/errors'; //remove err when diff ro
 
 
 const Main = (props) =>{
-  const { authUser, errors, removeError } = props;
+  const { authUser, errors, removeError, currentUser } = props;
   return (
     <div className="container">
       <Switch>
-        <Route exact path="/" render={props=> <Homepage {...props} />} />
+        <Route exact path="/" render={props=> 
+          <Homepage 
+              {...props} 
+              currentUser={currentUser} 
+          />} 
+        />
         <Route exact path="/signin" render={props=>{
             return(
               <AuthForm

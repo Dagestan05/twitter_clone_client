@@ -16,12 +16,13 @@ class AuthForm extends Component {
 
   handleSubmit = e=>{
     e.preventDefault();
-    console.log(this.props);
-    
     const authType = this.props.signUp ? "signup" : "signin";
+
     this.props.onAuth(authType, this.state).then(()=>{
-      console.log("logged in successfully");
-      
+      this.props.history.push("/")      
+    })
+    .catch(()=>{
+      return;
     })
   }
 
