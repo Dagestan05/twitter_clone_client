@@ -5,6 +5,9 @@ export const messages = (state = [], action) => {
   switch (action.type) {
     case LOAD_MESSAGES:
       return [...action.messages]
+    case REMOVE_MESSAGE:
+      //return all the messages but the deleted 1
+      return state.filter(message => message._id !== action.id)
     default:
       return state
   }
